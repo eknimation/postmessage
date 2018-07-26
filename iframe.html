@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+@Company    : EWIT CO.,LTD.
+@Developer  : Akekapon Sangsai <akekapon@ewitewit.com> 0849136073
+@Date       : Jul 26, 2018 4:41:01 PM
+-->
+
+<html>
+    <head>
+        <title>Iframe</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>iframe</h1>
+        <p>Send Message: <button id="message_button">Hi parent</button></p>
+        <p>Got Message:</p>
+        <div id="results"></div>
+
+        <script>
+            // addEventListener support for IE8
+            function bindEvent(element, eventName, eventHandler) {
+                if (element.addEventListener) {
+                    element.addEventListener(eventName, eventHandler, false);
+                } else if (element.attachEvent) {
+                    element.attachEvent('on' + eventName, eventHandler);
+                }
+            }
+            
+            var sendMessage = function (msg) {
+                window.parent.postMessage(msg, '*');
+            };
+            var results = document.getElementById('results'),
+                    messageButton = document.getElementById('message_button');
+
+            bindEvent(window, 'message', function (e) {
+                results.innerHTML = e.data;
+            });
+
+            bindEvent(messageButton, 'click', function (e) {
+                var random = Math.random();
+                sendMessage('' + random);
+            });
+        </script>
+    </body>
+</html>
